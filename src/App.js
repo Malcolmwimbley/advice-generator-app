@@ -1,22 +1,38 @@
-import logo from './logo.svg';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [number, setNumber] = useState(["101"])
+  const [text,setText] = useState(["Welcome to Advice Generator App"])
+
+  fetch("https://api.adviceslip.com/advice").then(data=>data.json()).then(data=>{
+    setText(data.slip.advice);
+    setNumber(data.slip.id);
+})
+
+const toggle = async () => {
+   await setText(!text);
+
+}
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="card">
+        <div className='card-text'>
+          <h2>ADVICE #{number}</h2>
+          <h1>"{text}"</h1>
+          <svg width="444" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#4F5D74" d="M0 8h196v1H0zM248 8h196v1H248z"/><g transform="translate(212)" fill="#CEE3E9"><rect width="6" height="16" rx="3"/><rect x="14" width="6" height="16" rx="3"/></g></g></svg>
+          </div>
+        </div>
+      
+        <button onClick={toggle}>
+           <motion.div className='button' whileTap={{ scale: 0.8 }}>
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" fill="#202733"/></svg>
+            </motion.div>
+        </button>
+  
       </header>
     </div>
   );
